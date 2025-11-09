@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Activity Management System{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #0dcaf0;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+        .main-content {
+            flex: 1;
+            padding-bottom: 2rem;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            transition: color 0.3s;
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: #fff !important;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            transition: box-shadow 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+            font-weight: 600;
+        }
+        .stat-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 0.5rem;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2) !important;
+        }
+        .stat-card .card-body {
+            padding: 1.5rem;
+        }
+        .stat-card i {
+            margin-bottom: 0.5rem;
+        }
+        .table {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .table thead {
+            background-color: #f8f9fa;
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-weight: 500;
+        }
+        .btn {
+            border-radius: 0.375rem;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+        }
+        .form-control, .form-select {
+            border-radius: 0.375rem;
+            border: 1px solid #dee2e6;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        footer {
+            margin-top: auto;
+            border-top: 1px solid #dee2e6;
+        }
+        .alert {
+            border-radius: 0.5rem;
+            border: none;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+        }
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        @media print {
+            .navbar, .btn, footer, .no-print {
+                display: none !important;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #dee2e6;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-clipboard-check"></i> Activity Management
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav me-auto">
+                    {% if user_profile and user_profile.role == 'student' %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}" href="{% url 'student_dashboard' %}">
+                            <i class="bi bi-house"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'activity_create' %}active{% endif %}" href="{% url 'activity_create' %}">
+                            <i class="bi bi-plus-circle"></i> Submit Activity
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'student_activities_report' %}active{% endif %}" href="{% url 'student_activities_report' %}">
+                            <i class="bi bi-file-text"></i> My Activities
+                        </a>
+                    </li>
+                    {% elif user_profile and user_profile.role == 'faculty' %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'faculty_dashboard' %}active{% endif %}" href="{% url 'faculty_dashboard' %}">
+                            <i class="bi bi-house"></i> Dashboard
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ user.get_full_name|default:user.username }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if user_profile and user_profile.role == 'student' %}
+                            <li><a class="dropdown-item" href="{% url 'student_profile_edit' %}">
+                                <i class="bi bi-person-gear"></i> Edit Profile
+                            </a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="bi bi-house"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-clipboard-check"></i> Activity Management System</h5>
+                    <p class="text-muted mb-0">A simple and efficient system for managing student activities.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        {% if user.is_authenticated %}
+                        {% if user_profile and user_profile.role == 'student' %}
+                        <li><a href="{% url 'student_dashboard' %}" class="text-decoration-none text-muted">Dashboard</a></li>
+                        <li><a href="{% url 'activity_create' %}" class="text-decoration-none text-muted">Submit Activity</a></li>
+                        <li><a href="{% url 'student_activities_report' %}" class="text-decoration-none text-muted">My Activities</a></li>
+                        {% elif user_profile and user_profile.role == 'faculty' %}
+                        <li><a href="{% url 'faculty_dashboard' %}" class="text-decoration-none text-muted">Dashboard</a></li>
+                        {% endif %}
+                        {% else %}
+                        <li><a href="{% url 'login' %}" class="text-decoration-none text-muted">Login</a></li>
+                        <li><a href="{% url 'register' %}" class="text-decoration-none text-muted">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Help & Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-muted">Privacy Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Help Center</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center">
+                <p class="mb-0 text-muted">&copy; 2024 Activity Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

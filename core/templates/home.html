@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Activity Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="bi bi-clipboard-check"></i> Activity Management System
+                </h1>
+                <p class="lead mb-4">
+                    A simple and efficient platform for students to submit activities and faculty to review them.
+                    Manage your academic activities seamlessly.
+                </p>
+                {% if not user.is_authenticated %}
+                <div class="d-flex gap-3">
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg">
+                        <i class="bi bi-person-plus"></i> Get Started
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </div>
+                {% else %}
+                <div class="d-flex gap-3">
+                    {% if user_profile and user_profile.role == 'student' %}
+                    <a href="{% url 'student_dashboard' %}" class="btn btn-light btn-lg">
+                        <i class="bi bi-house"></i> Go to Dashboard
+                    </a>
+                    {% elif user_profile and user_profile.role == 'faculty' %}
+                    <a href="{% url 'faculty_dashboard' %}" class="btn btn-light btn-lg">
+                        <i class="bi bi-house"></i> Go to Dashboard
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="bi bi-clipboard-data" style="font-size: 15rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5">
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <h2 class="fw-bold mb-3">Key Features</h2>
+            <p class="text-muted">Everything you need to manage student activities efficiently</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-person-check"></i>
+                    <h5 class="card-title mt-3">Role-Based Access</h5>
+                    <p class="card-text text-muted">
+                        Separate dashboards for students and faculty with role-based permissions.
+                        Students submit activities, faculty review and approve them.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    <h5 class="card-title mt-3">Easy Submission</h5>
+                    <p class="card-text text-muted">
+                        Students can easily submit activities with certificates. 
+                        Support for PDF and image files with a simple upload interface.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-clipboard-check"></i>
+                    <h5 class="card-title mt-3">Activity Tracking</h5>
+                    <p class="card-text text-muted">
+                        Track activity status in real-time. View pending, approved, 
+                        and rejected activities with detailed information.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-funnel"></i>
+                    <h5 class="card-title mt-3">Smart Filtering</h5>
+                    <p class="card-text text-muted">
+                        Faculty can filter activities by status and category for 
+                        efficient review and management.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-file-text"></i>
+                    <h5 class="card-title mt-3">Activity Reports</h5>
+                    <p class="card-text text-muted">
+                        Generate and view comprehensive activity reports. 
+                        Print-friendly format for official documentation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body">
+                    <i class="bi bi-shield-check"></i>
+                    <h5 class="card-title mt-3">Secure & Reliable</h5>
+                    <p class="card-text text-muted">
+                        Built with Django framework for security and reliability. 
+                        All data is securely stored and managed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="fw-bold mb-3">How It Works</h2>
+            <p class="text-muted">Simple steps to manage your activities</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span class="badge bg-primary me-2">1</span>
+                        For Students
+                    </h5>
+                    <ol class="mt-3">
+                        <li>Register and create your student profile</li>
+                        <li>Submit activities with event details and certificates</li>
+                        <li>Track the status of your submissions</li>
+                        <li>View your approved activities report</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span class="badge bg-success me-2">2</span>
+                        For Faculty
+                    </h5>
+                    <ol class="mt-3">
+                        <li>Register and login as faculty</li>
+                        <li>View all activity submissions</li>
+                        <li>Review and approve or reject activities</li>
+                        <li>Filter and manage activities efficiently</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+{% if not user.is_authenticated %}
+<div class="container my-5">
+    <div class="card bg-primary text-white">
+        <div class="card-body text-center p-5">
+            <h3 class="card-title mb-3">Ready to Get Started?</h3>
+            <p class="card-text mb-4">Join our platform and start managing your activities today!</p>
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-2">
+                <i class="bi bi-person-plus"></i> Register Now
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

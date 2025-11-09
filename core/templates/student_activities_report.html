@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}My Activities Report - Activity Management System{% endblock %}
+
+{% block extra_css %}
+<style>
+    @media print {
+        @page {
+            margin: 1cm;
+        }
+        body {
+            background: white;
+        }
+        .card {
+            border: 1px solid #ddd !important;
+            page-break-inside: avoid;
+        }
+        .table {
+            font-size: 0.9rem;
+        }
+        .badge {
+            border: 1px solid #000;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="bi bi-file-text"></i> My Activities Report</h2>
+            <p class="text-muted">Approved activities for {{ student_profile.user_profile.user.get_full_name|default:student_profile.user_profile.user.username }}</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <button onclick="window.print()" class="btn btn-primary no-print">
+                <i class="bi bi-printer"></i> Print Report
+            </button>
+        </div>
+    </div>
+
+    <!-- Student Info Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-person-circle"></i> Student Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> {{ student_profile.user_profile.user.get_full_name|default:"Not set" }}</p>
+                    <p><strong>Email:</strong> {{ student_profile.user_profile.user.email }}</p>
+                    <p><strong>Department:</strong> {{ student_profile.department }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Year:</strong> {{ student_profile.get_year_display }}</p>
+                    <p><strong>Enrollment Number:</strong> {{ student_profile.enrollment_number|default:"Not set" }}</p>
+                    <p><strong>Total Approved Activities:</strong> {{ activities.count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activities List -->
+    <div class="card">
+        <div class="card-header bg-light">
+            <h5 class="mb-0"><i class="bi bi-list-ul"></i> Approved Activities</h5>
+        </div>
+        <div class="card-body">
+            {% if activities %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Event Name</th>
+                            <th>Category</th>
+                            <th>Activity Date</th>
+                            <th>Description</th>
+                            <th>Certificate</th>
+                            <th>Approved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ activity.event_name }}</td>
+                            <td>
+                                <span class="badge bg-info">{{ activity.get_category_display }}</span>
+                            </td>
+                            <td>{{ activity.activity_date|date:"M d, Y" }}</td>
+                            <td>{{ activity.description|truncatewords:10|default:"-" }}</td>
+                            <td>
+                                {% if activity.certificate %}
+                                <a href="{{ activity.certificate.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i> View
+                                </a>
+                                {% else %}
+                                <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ activity.reviewed_at|date:"M d, Y"|default:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No approved activities yet. Your approved activities will appear here.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4 no-print">
+        <a href="{% url 'student_dashboard' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
+
