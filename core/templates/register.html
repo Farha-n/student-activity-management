@@ -6,12 +6,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow border-0 mt-4 mb-4">
+            <div class="card mt-4 mb-4">
                 <div class="card-body p-5">
                     <div class="text-center mb-4">
-                        <i class="bi bi-person-plus" style="font-size: 3rem; color: #0d6efd;"></i>
-                        <h2 class="mt-3 fw-bold">Create Account</h2>
-                        <p class="text-muted">Register as a Student or Faculty member</p>
+                        <i class="bi bi-person-plus" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                        <h2 class="mt-3 fw-bold text-gradient">Create Account</h2>
+                        <p class="text-secondary">Register as a Student or Faculty member</p>
                     </div>
 
                     <form method="post" enctype="multipart/form-data">
@@ -22,9 +22,14 @@
                                 <label for="{{ form.username.id_for_label }}" class="form-label">
                                     <i class="bi bi-person"></i> Username
                                 </label>
-                                {{ form.username }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    {{ form.username }}
+                                </div>
                                 {% if form.username.errors %}
-                                <div class="text-danger small">{{ form.username.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.username.errors }}</div>
                                 {% endif %}
                             </div>
 
@@ -32,9 +37,14 @@
                                 <label for="{{ form.email.id_for_label }}" class="form-label">
                                     <i class="bi bi-envelope"></i> Email
                                 </label>
-                                {{ form.email }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    {{ form.email }}
+                                </div>
                                 {% if form.email.errors %}
-                                <div class="text-danger small">{{ form.email.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.email.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -44,9 +54,14 @@
                                 <label for="{{ form.first_name.id_for_label }}" class="form-label">
                                     <i class="bi bi-person"></i> First Name
                                 </label>
-                                {{ form.first_name }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    {{ form.first_name }}
+                                </div>
                                 {% if form.first_name.errors %}
-                                <div class="text-danger small">{{ form.first_name.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.first_name.errors }}</div>
                                 {% endif %}
                             </div>
 
@@ -54,9 +69,14 @@
                                 <label for="{{ form.last_name.id_for_label }}" class="form-label">
                                     <i class="bi bi-person"></i> Last Name
                                 </label>
-                                {{ form.last_name }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    {{ form.last_name }}
+                                </div>
                                 {% if form.last_name.errors %}
-                                <div class="text-danger small">{{ form.last_name.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.last_name.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -68,7 +88,7 @@
                                 </label>
                                 {{ form.role }}
                                 {% if form.role.errors %}
-                                <div class="text-danger small">{{ form.role.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.role.errors }}</div>
                                 {% endif %}
                             </div>
 
@@ -76,9 +96,14 @@
                                 <label for="{{ form.phone.id_for_label }}" class="form-label">
                                     <i class="bi bi-phone"></i> Phone Number
                                 </label>
-                                {{ form.phone }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-phone"></i>
+                                    </span>
+                                    {{ form.phone }}
+                                </div>
                                 {% if form.phone.errors %}
-                                <div class="text-danger small">{{ form.phone.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.phone.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -88,12 +113,17 @@
                                 <label for="{{ form.password1.id_for_label }}" class="form-label">
                                     <i class="bi bi-lock"></i> Password
                                 </label>
-                                {{ form.password1 }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    {{ form.password1 }}
+                                </div>
                                 {% if form.password1.errors %}
-                                <div class="text-danger small">{{ form.password1.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.password1.errors }}</div>
                                 {% endif %}
                                 {% if form.password1.help_text %}
-                                <div class="form-text">{{ form.password1.help_text }}</div>
+                                <div class="form-text mt-2">{{ form.password1.help_text }}</div>
                                 {% endif %}
                             </div>
 
@@ -101,9 +131,14 @@
                                 <label for="{{ form.password2.id_for_label }}" class="form-label">
                                     <i class="bi bi-lock-fill"></i> Confirm Password
                                 </label>
-                                {{ form.password2 }}
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-lock-fill"></i>
+                                    </span>
+                                    {{ form.password2 }}
+                                </div>
                                 {% if form.password2.errors %}
-                                <div class="text-danger small">{{ form.password2.errors }}</div>
+                                <div class="text-danger small mt-2">{{ form.password2.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -115,7 +150,7 @@
                         </div>
 
                         <div class="text-center">
-                            <p class="mb-0">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                            <p class="mb-0 text-secondary">Already have an account? <a href="{% url 'login' %}" class="text-gradient" style="text-decoration: none;">Login here</a></p>
                         </div>
                     </form>
                 </div>
@@ -123,5 +158,18 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
+<style>
+    .input-group-text {
+        border-right: none;
+    }
+    
+    .input-group .form-control {
+        border-left: none;
+    }
+    
+    .input-group .form-control:focus {
+        border-left: 1px solid var(--accent-blue);
+    }
+</style>
+{% endblock %}

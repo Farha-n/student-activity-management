@@ -5,84 +5,136 @@
 {% block content %}
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> {{ action }} Activity</h4>
+        <div class="col-lg-10">
+            <div class="row align-items-center">
+                <!-- Left Side - Title and Description -->
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <h1 class="dashboard-title mb-4" style="font-size: 2.5rem;">Activity submission form</h1>
+                    <p class="text-secondary mb-4" style="line-height: 1.8;">
+                        Submit your activity details and upload supporting documents. Fill in all required information 
+                        to ensure your activity is reviewed promptly. All submissions are tracked and you can view 
+                        their status in your dashboard.
+                    </p>
+                    <div class="d-none d-lg-block">
+                        <button class="btn btn-primary btn-lg" style="opacity: 0.7; pointer-events: none;">
+                            <i class="bi bi-cloud-upload"></i> Upload
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="{{ form.event_name.id_for_label }}" class="form-label">
-                                <i class="bi bi-calendar-event"></i> {{ form.event_name.label }}
-                            </label>
-                            {{ form.event_name }}
-                            {% if form.event_name.errors %}
-                            <div class="text-danger small">{{ form.event_name.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.category.id_for_label }}" class="form-label">
-                                <i class="bi bi-tags"></i> {{ form.category.label }}
-                            </label>
-                            {{ form.category }}
-                            {% if form.category.errors %}
-                            <div class="text-danger small">{{ form.category.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.activity_date.id_for_label }}" class="form-label">
-                                <i class="bi bi-calendar"></i> {{ form.activity_date.label }}
-                            </label>
-                            {{ form.activity_date }}
-                            {% if form.activity_date.errors %}
-                            <div class="text-danger small">{{ form.activity_date.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.description.id_for_label }}" class="form-label">
-                                <i class="bi bi-text-paragraph"></i> {{ form.description.label }}
-                            </label>
-                            {{ form.description }}
-                            {% if form.description.errors %}
-                            <div class="text-danger small">{{ form.description.errors }}</div>
-                            {% endif %}
-                            <div class="form-text">Optional - Provide details about the activity</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.certificate.id_for_label }}" class="form-label">
-                                <i class="bi bi-file-earmark"></i> {{ form.certificate.label }}
-                            </label>
-                            {{ form.certificate }}
-                            {% if form.certificate.errors %}
-                            <div class="text-danger small">{{ form.certificate.errors }}</div>
-                            {% endif %}
-                            <div class="form-text">
-                                <i class="bi bi-info-circle"></i> Upload certificate as PDF or image (optional)
-                                <br>
-                                <small class="text-muted">Accepted formats: PDF, JPG, PNG, GIF | Max size: 10MB</small>
+                
+                <!-- Right Side - Form -->
+                <div class="col-lg-7">
+                    <div class="activity-form-container">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                <label for="{{ form.event_name.id_for_label }}" class="form-label">
+                                    <i class="bi bi-calendar-event"></i> Name
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-tag"></i>
+                                    </span>
+                                    {{ form.event_name }}
+                                </div>
+                                {% if form.event_name.errors %}
+                                <div class="text-danger small mt-2">{{ form.event_name.errors }}</div>
+                                {% endif %}
                             </div>
-                        </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'student_dashboard' %}" class="btn btn-secondary">
-                                <i class="bi bi-x-circle"></i> Cancel
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle"></i> Submit Activity
-                            </button>
-                        </div>
-                    </form>
+                            <div class="mb-4">
+                                <label for="{{ form.category.id_for_label }}" class="form-label">
+                                    <i class="bi bi-tags"></i> File
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-folder"></i>
+                                    </span>
+                                    {{ form.category }}
+                                </div>
+                                {% if form.category.errors %}
+                                <div class="text-danger small mt-2">{{ form.category.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="{{ form.activity_date.id_for_label }}" class="form-label">
+                                    <i class="bi bi-calendar"></i> Connection
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-link-45deg"></i>
+                                    </span>
+                                    {{ form.activity_date }}
+                                </div>
+                                {% if form.activity_date.errors %}
+                                <div class="text-danger small mt-2">{{ form.activity_date.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">
+                                    <i class="bi bi-text-paragraph"></i> {{ form.description.label }}
+                                </label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                <div class="text-danger small mt-2">{{ form.description.errors }}</div>
+                                {% endif %}
+                                <div class="form-text mt-2">
+                                    <small class="text-muted">Live to be all in one more</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="{{ form.certificate.id_for_label }}" class="form-label">
+                                    <i class="bi bi-file-earmark"></i> {{ form.certificate.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background: var(--bg-tertiary); border-color: rgba(59, 130, 246, 0.3); color: var(--text-secondary);">
+                                        <i class="bi bi-paperclip"></i>
+                                    </span>
+                                    {{ form.certificate }}
+                                </div>
+                                {% if form.certificate.errors %}
+                                <div class="text-danger small mt-2">{{ form.certificate.errors }}</div>
+                                {% endif %}
+                                <div class="form-text mt-2">
+                                    <small class="text-muted">
+                                        <i class="bi bi-info-circle"></i> Upload certificate as PDF or image (optional)
+                                        <br>
+                                        Accepted formats: PDF, JPG, PNG, GIF | Max size: 10MB
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="{% url 'student_dashboard' %}" class="btn btn-outline-primary">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </a>
+                                <button type="submit" class="btn btn-warning btn-lg" style="min-width: 150px;">
+                                    <i class="bi bi-cloud-upload"></i> Upload
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
+<style>
+    .input-group-text {
+        border-right: none;
+    }
+    
+    .input-group .form-control {
+        border-left: none;
+    }
+    
+    .input-group .form-control:focus {
+        border-left: 1px solid var(--accent-blue);
+    }
+</style>
+{% endblock %}

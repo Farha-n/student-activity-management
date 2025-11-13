@@ -6,54 +6,74 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0"><i class="bi bi-info-circle"></i> Activity Details</h4>
-                    <a href="{% if user.profile.role == 'student' %}{% url 'student_dashboard' %}{% else %}{% url 'faculty_dashboard' %}{% endif %}" class="btn btn-light btn-sm">
+                    <a href="{% if user_profile.role == 'student' %}{% url 'student_dashboard' %}{% else %}{% url 'faculty_dashboard' %}{% endif %}" class="btn btn-outline-primary btn-sm">
                         <i class="bi bi-arrow-left"></i> Back
                     </a>
                 </div>
                 <div class="card-body p-4">
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <h5><i class="bi bi-person"></i> Student Information</h5>
-                            <p><strong>Name:</strong> {{ activity.student_profile.user_profile.user.get_full_name|default:activity.student_profile.user_profile.user.username }}</p>
-                            <p><strong>Email:</strong> {{ activity.student_profile.user_profile.user.email }}</p>
-                            <p><strong>Department:</strong> {{ activity.student_profile.department }}</p>
-                            <p><strong>Year:</strong> {{ activity.student_profile.get_year_display }}</p>
+                            <h5 class="text-gradient"><i class="bi bi-person"></i> Student Information</h5>
+                            <div class="mt-3">
+                                <p class="text-muted mb-1">Name</p>
+                                <p class="mb-3"><strong>{{ activity.student_profile.user_profile.user.get_full_name|default:activity.student_profile.user_profile.user.username }}</strong></p>
+                                
+                                <p class="text-muted mb-1">Email</p>
+                                <p class="mb-3"><strong>{{ activity.student_profile.user_profile.user.email }}</strong></p>
+                                
+                                <p class="text-muted mb-1">Department</p>
+                                <p class="mb-3"><strong>{{ activity.student_profile.department }}</strong></p>
+                                
+                                <p class="text-muted mb-1">Year</p>
+                                <p class="mb-0"><strong>{{ activity.student_profile.get_year_display }}</strong></p>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <h5><i class="bi bi-calendar-event"></i> Activity Information</h5>
-                            <p><strong>Event Name:</strong> {{ activity.event_name }}</p>
-                            <p><strong>Category:</strong> 
-                                <span class="badge bg-info">{{ activity.get_category_display }}</span>
-                            </p>
-                            <p><strong>Activity Date:</strong> {{ activity.activity_date }}</p>
-                            <p><strong>Status:</strong> 
-                                {% if activity.status == 'approved' %}
-                                <span class="badge bg-success">Approved</span>
-                                {% elif activity.status == 'rejected' %}
-                                <span class="badge bg-danger">Rejected</span>
-                                {% else %}
-                                <span class="badge bg-warning">Pending</span>
-                                {% endif %}
-                            </p>
+                            <h5 class="text-gradient"><i class="bi bi-calendar-event"></i> Activity Information</h5>
+                            <div class="mt-3">
+                                <p class="text-muted mb-1">Event Name</p>
+                                <p class="mb-3"><strong>{{ activity.event_name }}</strong></p>
+                                
+                                <p class="text-muted mb-1">Category</p>
+                                <p class="mb-3">
+                                    <span class="badge bg-info">{{ activity.get_category_display }}</span>
+                                </p>
+                                
+                                <p class="text-muted mb-1">Activity Date</p>
+                                <p class="mb-3"><strong>{{ activity.activity_date }}</strong></p>
+                                
+                                <p class="text-muted mb-1">Status</p>
+                                <p class="mb-0">
+                                    {% if activity.status == 'approved' %}
+                                    <span class="badge bg-success">Approved</span>
+                                    {% elif activity.status == 'rejected' %}
+                                    <span class="badge bg-danger">Rejected</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">Pending</span>
+                                    {% endif %}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     {% if activity.description %}
                     <div class="mb-4">
-                        <h5><i class="bi bi-text-paragraph"></i> Description</h5>
-                        <p>{{ activity.description }}</p>
+                        <h5 class="text-gradient"><i class="bi bi-text-paragraph"></i> Description</h5>
+                        <p class="mt-3">{{ activity.description }}</p>
                     </div>
                     {% endif %}
 
                     {% if activity.certificate %}
                     <div class="mb-4">
-                        <h5><i class="bi bi-file-earmark"></i> Certificate</h5>
-                        <a href="{{ activity.certificate.url }}" target="_blank" class="btn btn-outline-primary">
-                            <i class="bi bi-download"></i> View/Download Certificate
-                        </a>
+                        <h5 class="text-gradient"><i class="bi bi-file-earmark"></i> Certificate</h5>
+                        <div class="mt-3">
+                            <a href="{{ activity.certificate.url }}" target="_blank" class="btn btn-outline-primary">
+                                <i class="bi bi-download"></i> View/Download Certificate
+                            </a>
+                        </div>
                     </div>
                     {% endif %}
 
@@ -66,9 +86,14 @@
 
                     {% if activity.reviewed_by %}
                     <div class="mb-4">
-                        <h5><i class="bi bi-person-check"></i> Review Information</h5>
-                        <p><strong>Reviewed by:</strong> {{ activity.reviewed_by.get_full_name|default:activity.reviewed_by.username }}</p>
-                        <p><strong>Reviewed on:</strong> {{ activity.reviewed_at|date:"F d, Y H:i" }}</p>
+                        <h5 class="text-gradient"><i class="bi bi-person-check"></i> Review Information</h5>
+                        <div class="mt-3">
+                            <p class="text-muted mb-1">Reviewed by</p>
+                            <p class="mb-3"><strong>{{ activity.reviewed_by.get_full_name|default:activity.reviewed_by.username }}</strong></p>
+                            
+                            <p class="text-muted mb-1">Reviewed on</p>
+                            <p class="mb-0"><strong>{{ activity.reviewed_at|date:"F d, Y H:i" }}</strong></p>
+                        </div>
                     </div>
                     {% endif %}
 
@@ -78,7 +103,7 @@
                         </p>
                     </div>
 
-                    {% if user.profile.role == 'faculty' and activity.status == 'pending' %}
+                    {% if user_profile.role == 'faculty' and activity.status == 'pending' %}
                     <div class="mt-4">
                         <a href="{% url 'activity_review' activity.pk %}" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> Review Activity
@@ -91,4 +116,3 @@
     </div>
 </div>
 {% endblock %}
-

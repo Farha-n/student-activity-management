@@ -83,12 +83,33 @@ def user_login(request):
 
 
 # User Logout View
-@login_required
 def user_logout(request):
-    """User logout view"""
-    logout(request)
-    messages.success(request, 'You have been logged out successfully.')
-    return redirect('login')
+    """User logout view - properly clears session and logs out user"""
+    # Store username before logout (since logout clears user from request)
+    was_authenticated = request.user.is_authenticated
+    username = request.user.username if was_authenticated else None
+    
+    # Logout the user - this clears the authentication
+    if was_authenticated:
+        # Django's logout() function handles session clearing
+        logout(request)
+        messages.success(request, f'You have been logged out successfully, {username}.')
+    else:
+        messages.info(request, 'You were not logged in.')
+    
+    # Create redirect response
+    response = redirect('login')
+    
+    # Delete session cookie explicitly
+    response.delete_cookie('sessionid', path='/')
+    response.delete_cookie('sessionid', path='/', domain=None)
+    
+    # Set cache control headers to prevent caching
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = 'Thu, 01 Jan 1970 00:00:00 GMT'
+    
+    return response
 
 
 # Student Profile Create/Update View

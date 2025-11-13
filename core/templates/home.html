@@ -4,34 +4,34 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero-section">
+<div class="hero-section" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3)); padding: 4rem 0; margin-bottom: 2rem; border-radius: 0 0 2rem 2rem;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
+                <h1 class="display-4 fw-bold mb-4 text-gradient">
                     <i class="bi bi-clipboard-check"></i> Activity Management System
                 </h1>
-                <p class="lead mb-4">
+                <p class="lead mb-4 text-secondary">
                     A simple and efficient platform for students to submit activities and faculty to review them.
                     Manage your academic activities seamlessly.
                 </p>
                 {% if not user.is_authenticated %}
                 <div class="d-flex gap-3">
-                    <a href="{% url 'register' %}" class="btn btn-light btn-lg">
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
                         <i class="bi bi-person-plus"></i> Get Started
                     </a>
-                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
                         <i class="bi bi-box-arrow-in-right"></i> Login
                     </a>
                 </div>
                 {% else %}
                 <div class="d-flex gap-3">
                     {% if user_profile and user_profile.role == 'student' %}
-                    <a href="{% url 'student_dashboard' %}" class="btn btn-light btn-lg">
+                    <a href="{% url 'student_dashboard' %}" class="btn btn-primary btn-lg">
                         <i class="bi bi-house"></i> Go to Dashboard
                     </a>
                     {% elif user_profile and user_profile.role == 'faculty' %}
-                    <a href="{% url 'faculty_dashboard' %}" class="btn btn-light btn-lg">
+                    <a href="{% url 'faculty_dashboard' %}" class="btn btn-primary btn-lg">
                         <i class="bi bi-house"></i> Go to Dashboard
                     </a>
                     {% endif %}
@@ -39,7 +39,7 @@
                 {% endif %}
             </div>
             <div class="col-lg-6 text-center">
-                <i class="bi bi-clipboard-data" style="font-size: 15rem; opacity: 0.3;"></i>
+                <i class="bi bi-clipboard-data" style="font-size: 15rem; opacity: 0.2; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
             </div>
         </div>
     </div>
@@ -49,17 +49,17 @@
 <div class="container my-5">
     <div class="row text-center mb-5">
         <div class="col-12">
-            <h2 class="fw-bold mb-3">Key Features</h2>
-            <p class="text-muted">Everything you need to manage student activities efficiently</p>
+            <h2 class="fw-bold mb-3 text-gradient">Key Features</h2>
+            <p class="text-secondary">Everything you need to manage student activities efficiently</p>
         </div>
     </div>
     <div class="row g-4">
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-person-check"></i>
+                    <i class="bi bi-person-check" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Role-Based Access</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Separate dashboards for students and faculty with role-based permissions.
                         Students submit activities, faculty review and approve them.
                     </p>
@@ -69,9 +69,9 @@
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    <i class="bi bi-file-earmark-arrow-up" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Easy Submission</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Students can easily submit activities with certificates. 
                         Support for PDF and image files with a simple upload interface.
                     </p>
@@ -81,9 +81,9 @@
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-clipboard-check"></i>
+                    <i class="bi bi-clipboard-check" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Activity Tracking</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Track activity status in real-time. View pending, approved, 
                         and rejected activities with detailed information.
                     </p>
@@ -93,9 +93,9 @@
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-funnel"></i>
+                    <i class="bi bi-funnel" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Smart Filtering</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Faculty can filter activities by status and category for 
                         efficient review and management.
                     </p>
@@ -105,9 +105,9 @@
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-file-text"></i>
+                    <i class="bi bi-file-text" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Activity Reports</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Generate and view comprehensive activity reports. 
                         Print-friendly format for official documentation.
                     </p>
@@ -117,9 +117,9 @@
         <div class="col-md-4">
             <div class="card feature-card h-100">
                 <div class="card-body">
-                    <i class="bi bi-shield-check"></i>
+                    <i class="bi bi-shield-check" style="font-size: 3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h5 class="card-title mt-3">Secure & Reliable</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-secondary">
                         Built with Django framework for security and reliability. 
                         All data is securely stored and managed.
                     </p>
@@ -133,8 +133,8 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-12 text-center mb-5">
-            <h2 class="fw-bold mb-3">How It Works</h2>
-            <p class="text-muted">Simple steps to manage your activities</p>
+            <h2 class="fw-bold mb-3 text-gradient">How It Works</h2>
+            <p class="text-secondary">Simple steps to manage your activities</p>
         </div>
     </div>
     <div class="row">
@@ -145,7 +145,7 @@
                         <span class="badge bg-primary me-2">1</span>
                         For Students
                     </h5>
-                    <ol class="mt-3">
+                    <ol class="mt-3 text-secondary">
                         <li>Register and create your student profile</li>
                         <li>Submit activities with event details and certificates</li>
                         <li>Track the status of your submissions</li>
@@ -161,7 +161,7 @@
                         <span class="badge bg-success me-2">2</span>
                         For Faculty
                     </h5>
-                    <ol class="mt-3">
+                    <ol class="mt-3 text-secondary">
                         <li>Register and login as faculty</li>
                         <li>View all activity submissions</li>
                         <li>Review and approve or reject activities</li>
@@ -176,14 +176,14 @@
 <!-- Call to Action -->
 {% if not user.is_authenticated %}
 <div class="container my-5">
-    <div class="card bg-primary text-white">
+    <div class="card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid rgba(59, 130, 246, 0.3);">
         <div class="card-body text-center p-5">
-            <h3 class="card-title mb-3">Ready to Get Started?</h3>
-            <p class="card-text mb-4">Join our platform and start managing your activities today!</p>
-            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-2">
+            <h3 class="card-title mb-3 text-gradient">Ready to Get Started?</h3>
+            <p class="card-text mb-4 text-secondary">Join our platform and start managing your activities today!</p>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-2">
                 <i class="bi bi-person-plus"></i> Register Now
             </a>
-            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
                 <i class="bi bi-box-arrow-in-right"></i> Login
             </a>
         </div>
@@ -191,4 +191,3 @@
 </div>
 {% endif %}
 {% endblock %}
-

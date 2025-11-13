@@ -4,98 +4,158 @@
 
 {% block content %}
 <div class="container mt-4">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Activity Reports</h1>
+        <p class="text-secondary mb-0">Welcome, {{ student_profile.user_profile.user.get_full_name|default:student_profile.user_profile.user.username }}!</p>
+    </div>
+
+    <!-- Statistics Cards Row 1 -->
     <div class="row mb-4">
-        <div class="col-md-12">
-            <h2><i class="bi bi-house-door"></i> Student Dashboard</h2>
-            <p class="text-muted">Welcome, {{ student_profile.user_profile.user.get_full_name|default:student_profile.user_profile.user.username }}!</p>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="card-body">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>{{ stats.total }}</h3>
+                    <p>Total Activities</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="card-body" style="width: 100%;">
+                    <div style="position: relative; width: 120px; height: 120px; margin: 0 auto 1rem;">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                    <h3 style="margin-top: 0.5rem;">{{ stats.approved|default:0 }}{% if stats.total > 0 %}%{% endif %}</h3>
+                    <p>Approval Rate</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card pending-card">
+                <div class="card-body">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <h3>{{ stats.pending }}</h3>
+                    <p>Pending Review</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="card-body">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <h3>{{ stats.approved }}</h3>
+                    <p>Approved</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Statistics Cards -->
+    <!-- Statistics Cards Row 2 -->
     <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card stat-card border-primary">
-                <div class="card-body text-center">
-                    <i class="bi bi-list-task" style="font-size: 2rem; color: #0d6efd;"></i>
-                    <h3 class="mt-2">{{ stats.total }}</h3>
-                    <p class="text-muted mb-0">Total Activities</p>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="card-body">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h3 style="font-size: 3rem; margin: 0;">{% if stats.total > 0 %}{{ stats.approved|floatformat:0 }}{% else %}0{% endif %}%</h3>
+                            <p style="margin: 0.5rem 0 0 0;">Success Rate</p>
+                        </div>
+                        <i class="bi bi-person-check" style="font-size: 3rem; opacity: 0.3;"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card stat-card border-success">
-                <div class="card-body text-center">
-                    <i class="bi bi-check-circle" style="font-size: 2rem; color: #198754;"></i>
-                    <h3 class="mt-2">{{ stats.approved }}</h3>
-                    <p class="text-muted mb-0">Approved</p>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-graph-up"></i> Activity Trends</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="activityTrendChart" height="100"></canvas>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card border-warning">
-                <div class="card-body text-center">
-                    <i class="bi bi-hourglass-split" style="font-size: 2rem; color: #ffc107;"></i>
-                    <h3 class="mt-2">{{ stats.pending }}</h3>
-                    <p class="text-muted mb-0">Pending</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card border-danger">
-                <div class="card-body text-center">
-                    <i class="bi bi-x-circle" style="font-size: 2rem; color: #dc3545;"></i>
-                    <h3 class="mt-2">{{ stats.rejected }}</h3>
-                    <p class="text-muted mb-0">Rejected</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Student Profile Info -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0"><i class="bi bi-person-circle"></i> Student Profile</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Name:</strong> {{ student_profile.user_profile.user.get_full_name|default:"Not set" }}</p>
-                    <p><strong>Email:</strong> {{ student_profile.user_profile.user.email }}</p>
-                    <p><strong>Department:</strong> {{ student_profile.department }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Year:</strong> {{ student_profile.get_year_display }}</p>
-                    <p><strong>Enrollment Number:</strong> {{ student_profile.enrollment_number|default:"Not set" }}</p>
-                    <p><strong>Phone:</strong> {{ student_profile.user_profile.phone|default:"Not set" }}</p>
-                </div>
-            </div>
-            <a href="{% url 'student_profile_edit' %}" class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-pencil"></i> Edit Profile
-            </a>
         </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <a href="{% url 'activity_create' %}" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle"></i> Submit New Activity
-            </a>
-            <a href="{% url 'student_activities_report' %}" class="btn btn-outline-primary btn-lg">
-                <i class="bi bi-file-text"></i> View My Activities Report
-            </a>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{% url 'activity_create' %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-plus-circle"></i> Submit New Activity
+                        </a>
+                        <a href="{% url 'student_activities_report' %}" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-file-text"></i> View My Activities Report
+                        </a>
+                        <a href="{% url 'student_profile_edit' %}" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-person-gear"></i> Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Profile Info -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-person-circle"></i> Student Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Name</p>
+                            <p class="mb-3" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.user_profile.user.get_full_name|default:"Not set" }}</p>
+                            
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Department</p>
+                            <p class="mb-3" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.department }}</p>
+                            
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Enrollment Number</p>
+                            <p class="mb-0" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.enrollment_number|default:"Not set" }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Email</p>
+                            <p class="mb-3" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.user_profile.user.email }}</p>
+                            
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Year</p>
+                            <p class="mb-3" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.get_year_display }}</p>
+                            
+                            <p class="text-secondary mb-1" style="font-size: 0.9rem; opacity: 0.8;">Phone</p>
+                            <p class="mb-0" style="color: var(--text-primary) !important; font-weight: 600;">{{ student_profile.user_profile.phone|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Activity Status Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; height: 250px;">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Activities List -->
-    <div class="card">
-        <div class="card-header bg-light">
+    <div class="card activities-table-card">
+        <div class="card-header">
             <h5 class="mb-0"><i class="bi bi-list-ul"></i> My Activities</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body activities-table-body">
             {% if activities %}
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table activities-table">
                     <thead>
                         <tr>
                             <th>Event Name</th>
@@ -109,23 +169,23 @@
                     <tbody>
                         {% for activity in activities %}
                         <tr>
-                            <td>{{ activity.event_name }}</td>
+                            <td class="activity-event-name">{{ activity.event_name }}</td>
                             <td>
-                                <span class="badge bg-info">{{ activity.get_category_display }}</span>
+                                <span class="badge category-badge">{{ activity.get_category_display }}</span>
                             </td>
-                            <td>{{ activity.activity_date }}</td>
+                            <td class="activity-date">{{ activity.activity_date|date:"M. d, Y" }}</td>
                             <td>
                                 {% if activity.status == 'approved' %}
-                                <span class="badge bg-success">Approved</span>
+                                <span class="badge status-badge status-approved">Approved</span>
                                 {% elif activity.status == 'rejected' %}
-                                <span class="badge bg-danger">Rejected</span>
+                                <span class="badge status-badge status-rejected">Rejected</span>
                                 {% else %}
-                                <span class="badge bg-warning">Pending</span>
+                                <span class="badge status-badge status-pending">Pending</span>
                                 {% endif %}
                             </td>
-                            <td>{{ activity.created_at|date:"M d, Y" }}</td>
+                            <td class="activity-date">{{ activity.created_at|date:"M d, Y" }}</td>
                             <td>
-                                <a href="{% url 'activity_detail' activity.pk %}" class="btn btn-sm btn-outline-primary">
+                                <a href="{% url 'activity_detail' activity.pk %}" class="btn btn-sm btn-view-action">
                                     <i class="bi bi-eye"></i> View
                                 </a>
                             </td>
@@ -137,11 +197,146 @@
             {% else %}
             <div class="alert alert-info">
                 <i class="bi bi-info-circle"></i> No activities submitted yet. 
-                <a href="{% url 'activity_create' %}">Submit your first activity!</a>
+                <a href="{% url 'activity_create' %}" class="text-decoration-none">Submit your first activity!</a>
             </div>
             {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
 
+<script>
+    // Donut Chart
+    const donutCtx = document.getElementById('donutChart');
+    if (donutCtx) {
+        const approvalRate = {{ stats.total }} > 0 ? ({{ stats.approved }} / {{ stats.total }} * 100).toFixed(0) : 0;
+        new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Approved', 'Remaining'],
+                datasets: [{
+                    data: [{{ stats.approved }}, Math.max(0, {{ stats.total }} - {{ stats.approved }})],
+                    backgroundColor: ['#3b82f6', 'rgba(59, 130, 246, 0.15)'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                },
+                cutout: '75%'
+            },
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                    const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+                    ctx.save();
+                    ctx.font = 'bold 24px Inter';
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(approvalRate + '%', centerX, centerY);
+                    ctx.restore();
+                }
+            }]
+        });
+    }
+
+    // Activity Trend Chart
+    const trendCtx = document.getElementById('activityTrendChart');
+    if (trendCtx) {
+        // Sample data - in production, this would come from the backend
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+        const activityData = [2, 3, 1, 4, 2, 3]; // This should be dynamic
+        
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Activities',
+                    data: activityData,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: 'rgba(59, 130, 246, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: 'rgba(59, 130, 246, 0.1)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Status Distribution Chart
+    const statusCtx = document.getElementById('statusChart');
+    if (statusCtx) {
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Approved', 'Pending', 'Rejected'],
+                datasets: [{
+                    data: [{{ stats.approved }}, {{ stats.pending }}, {{ stats.rejected }}],
+                    backgroundColor: ['#10b981', '#f97316', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            color: '#cbd5e1', 
+                            padding: 15,
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    }
+</script>
+{% endblock %}
